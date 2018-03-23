@@ -211,21 +211,3 @@ impl<T: DataType + Copy> DataType for List<T> {
 impl<T: DataType + Copy> ListType for List<T> {
 
 }
-
-
-// impl<T: DataType + Copy> StructType for Struct<T> {
-
-// }
-
-// impl<T> DataType for List<T> where T: DataType {
-//     type Array = array::List<T>;
-//     type Buffer = array::Buffer<T>; //this shouldn't be required
-
-//     fn name(&self) -> &str {
-//         "list"
-//     }
-
-//     fn bits(&self) -> usize {  // shouldn't implement on this one I guess
-//         0
-//     }
-// }

@@ -13,12 +13,11 @@ extern crate libc;
 extern crate alloc;
 
 pub mod util;
-pub mod status;
 pub mod types;
 pub mod dtypes;
 pub mod mempool;
 pub mod array;
-//pub mod memory_pool;
+
 
 mod tests {
     #[test]
