@@ -1,5 +1,6 @@
 use alloc::raw_vec::RawVec;
 use std::convert::From;
+use std::ptr;
 
 use dtypes::{DataType, PrimitiveType, ListType, List};
 
@@ -72,10 +73,16 @@ impl<T> Array<T> where T: DataType + Copy {
 }
 
 
-impl<T> Array<T> where T: PrimitiveType {
+impl<T> Array<T> where T: PrimitiveType<Data=PrimitiveData<T>> {
 
-    pub fn push(&mut self, value: T::Item) {    
-
+    pub fn push(&mut self, val: T::Item) {    
+        if self.len == self.data.values.cap() {
+            self.data.values.double();
+        }
+        unsafe {
+            ptr::write(self.data.values.ptr().offset(self.len as isize), val);
+        }
+        self.len += 1;
     }
 
 }
@@ -108,11 +115,17 @@ mod tests {
 
     #[test]
     fn test_simple() {
-        let a = Array::new(Int64);
+        let mut a = Array::new(Int64);
 
         assert_eq!(a.len(), 0);
         assert_eq!(a.dtype(), Int64);
-        
+
+        println!("{}", a.len());
+        println!("{}", a.data.values.cap());
+
+        for i in 1..100 {
+            a.push(i);
+        }
     }
 
 }
